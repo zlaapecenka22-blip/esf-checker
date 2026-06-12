@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+
+<title>ESF Checker</title>
+
+<style>
+
+body{
+    font-family:Segoe UI;
+    background:#f4f6fa;
+    margin:0;
+    padding:40px;
+}
+
+h1{
+    text-align:center;
+    color:#274690;
+}
+
+.cards{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:20px;
+    margin-bottom:30px;
+}
+
+.card{
+    color:white;
+    border-radius:18px;
+    padding:25px;
+    text-align:center;
+    font-size:30px;
+    font-weight:bold;
+}
+
+.card span{
+    display:block;
+    margin-top:10px;
+    font-size:18px;
+    font-weight:normal;
+}
+
+.blue{background:#274690;}
+.green{background:#2fb344;}
+.red{background:#dc3545;}
+.purple{background:#6f42c1;}
+
+.tabs{
+    display:flex;
+    gap:10px;
+    margin-bottom:20px;
+    flex-wrap:wrap;
+}
+
+.tab{
+    padding:12px 20px;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+    background:#274690;
+    color:white;
+    font-size:15px;
+}
+
+.section{
+    display:none;
+}
+
+.section.active{
+    display:block;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    background:white;
+    box-shadow:0 5px 20px rgba(0,0,0,.1);
+}
+
+th{
+    background:#274690;
+    color:white;
+    padding:12px;
+}
+
+td{
+    padding:12px;
+    border-bottom:1px solid #eee;
+}
+
+.ok{
+    background:#d4edda;
+}
+
+.error{
+    background:#f8d7da;
+}
+
+.download{
+    margin-top:30px;
+    text-align:center;
+}
+
+.download a{
+    background:#2fb344;
+    color:white;
+    text-decoration:none;
+    padding:15px 30px;
+    border-radius:10px;
+}
+
+</style>
+</head>
+<body>
+
+<h1>Результаты проверки</h1>
+
+<div class="cards">
+
+<div class="card blue">
+{{ total }}
+<span>Всего</span>
+</div>
+
+<div class="card green">
+{{ ok_count }}
+<span>Совпало</span>
+</div>
+
+<div class="card red">
+{{ error_count }}
+<span>Ошибок</span>
+</div>
+
+<div class="card purple">
+{{ match_percent }}%
+<span>Совпадение</span>
+</div>
+
+</div>
+
+<div class="tabs">
+
+<button class="tab" onclick="showTab('all')">
+Все ({{ total }})
+</button>
+
+<button class="tab" onclick="showTab('matches')">
+Совпадения ({{ matches|length }})
+</button>
+
+<button class="tab" onclick="showTab('differences')">
+Расхождения ({{ differences|length }})
+</button>
+
+<button class="tab" onclick="showTab('duplicates')">
+Дубликаты ({{ duplicates|length }})
+</button>
+
+<button class="tab" onclick="showTab('missing1c')">
+Нет в 1С ({{ missing_1c|length }})
+</button>
+
+<button class="tab" onclick="showTab('missingesf')">
+Нет в ЭСФ ({{ missing_esf|length }})
+</button>
+
+</div>
+
+{% macro render_table(rows) %}
+
+<table>
+
+<tr>
+<th>Номер СФ</th>
+<th>Статус</th>
+<th>Тип</th>
+<th>Комментарий</th>
+</tr>
+
+{% for row in rows %}
+
+<tr class="{{ 'ok' if row['Статус']=='OK' else 'error' }}">
+
+<td>{{ row["НомерСФ"] }}</td>
+<td>{{ row["Статус"] }}</td>
+<td>{{ row["Тип"] }}</td>
+<td>{{ row["Комментарий"] }}</td>
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+{% endmacro %}
+
+<div id="all" class="section active">
+{{ render_table(results) }}
+</div>
+
+<div id="matches" class="section">
+{{ render_table(matches) }}
+</div>
+
+<div id="differences" class="section">
+{{ render_table(differences) }}
+</div>
+
+<div id="duplicates" class="section">
+{{ render_table(duplicates) }}
+</div>
+
+<div id="missing1c" class="section">
+{{ render_table(missing_1c) }}
+</div>
+
+<div id="missingesf" class="section">
+{{ render_table(missing_esf) }}
+</div>
+
+<div class="download">
+
+<a href="/download">
+📥 Скачать Excel отчет
+</a>
+
+</div>
+
+<script>
+
+function showTab(tab){
+
+document
+.querySelectorAll('.section')
+.forEach(el=>el.classList.remove('active'))
+
+document
+.getElementById(tab)
+.classList.add('active')
+
+}
+
+</script>
+
+</body>
+</html>

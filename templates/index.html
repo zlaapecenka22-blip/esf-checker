@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>ESF Checker</title>
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:Segoe UI, sans-serif;
+        }
+
+        body{
+            background:#f4f6f9;
+            min-height:100vh;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+        }
+
+        .container{
+            width:700px;
+            background:white;
+            border-radius:20px;
+            padding:40px;
+            box-shadow:0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .logo{
+            text-align:center;
+            font-size:42px;
+            margin-bottom:10px;
+        }
+
+        h1{
+            text-align:center;
+            color:#1f3c88;
+            margin-bottom:10px;
+        }
+
+        .subtitle{
+            text-align:center;
+            color:#777;
+            margin-bottom:35px;
+        }
+
+        .upload-box{
+            border:2px dashed #d0d7e2;
+            border-radius:12px;
+            padding:20px;
+            margin-bottom:20px;
+            transition:0.3s;
+        }
+
+        .upload-box:hover{
+            border-color:#1f3c88;
+            background:#f8fbff;
+        }
+
+        .upload-box label{
+            display:block;
+            font-weight:600;
+            margin-bottom:10px;
+            color:#333;
+        }
+
+        input[type=file]{
+            width:100%;
+            padding:10px;
+        }
+
+        button{
+            width:100%;
+            margin-top:15px;
+            padding:16px;
+            border:none;
+            border-radius:12px;
+            background:#28a745;
+            color:white;
+            font-size:18px;
+            cursor:pointer;
+            transition:0.3s;
+        }
+
+        button:hover{
+            background:#218838;
+        }
+
+        .features{
+            margin-top:35px;
+            display:grid;
+            grid-template-columns:1fr 1fr;
+            gap:10px;
+        }
+
+        .feature{
+            background:#f8f9fa;
+            padding:12px;
+            border-radius:10px;
+            font-size:14px;
+        }
+
+        .footer{
+            text-align:center;
+            margin-top:30px;
+            color:#888;
+            font-size:13px;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="logo">
+        📊
+    </div>
+
+    <h1>ESF Checker</h1>
+
+    <div class="subtitle">
+        Автоматическая сверка счетов-фактур 1С и ЭСФ
+    </div>
+
+    <form action="/check" method="POST" enctype="multipart/form-data">
+
+        <div class="upload-box">
+            <label>📁 Выгрузка из 1С</label>
+            <input type="file" name="file_1c" required>
+        </div>
+
+        <div class="upload-box">
+            <label>📁 Выгрузка из ЭСФ</label>
+            <input type="file" name="file_esf" required>
+        </div>
+
+        <button type="submit">
+            Проверить и скачать отчет
+        </button>
+
+    </form>
+
+    <div class="features">
+
+        <div class="feature">
+            ✅ Поиск расхождений
+        </div>
+
+        <div class="feature">
+            ✅ Проверка НДС
+        </div>
+
+        <div class="feature">
+            ✅ Контроль сумм
+        </div>
+
+        <div class="feature">
+            ✅ Поиск дубликатов
+        </div>
+
+        <div class="feature">
+            ✅ Excel-отчет
+        </div>
+
+        <div class="feature">
+            ✅ Сводная статистика
+        </div>
+
+    </div>
+
+    <div class="footer">
+        ESF Checker © 2026
+    </div>
+
+</div>
+
+</body>
+</html>
